@@ -9,6 +9,10 @@ from stream import Stream
 
 class ByteStream(Stream):
 
+    SEEK_SET = 0
+    SEEK_CUR = 1
+    SEEK_END = 2
+
     def __init__(self):
         Stream.__init__(self)
         self.data = bytearray()
@@ -32,9 +36,14 @@ class ByteStream(Stream):
     def get_data(self):
         return self.data
 
-    def set_read_position(self, position):
-        # position is for read operations only; write operations append to the bytearray
-        self.read_position = position
+    # position is for read operations only; write operations append to the bytearray
+    def set_read_position(self, offset, whence=SEEK_SET):
+        if whence == ByteStream.SEEK_SET:
+            self.read_position = offset                 # offset must be zero or positive
+        elif whence == ByteStream.SEEK_CUR:
+            self.read_position += offset                # offset can be positive or negative
+        else:
+            self.read_position = self.length + offset   # offset must be negative
 
     def get_read_position(self):
         return self.read_position
@@ -47,9 +56,6 @@ class ByteStream(Stream):
 
     def pop_read_position(self):
         self.set_read_position(self.read_position_stack.pop())
-
-    def skip(self, offset):
-        self.read_position += offset
 
     def is_eof(self):
         return self.read_position == self.length

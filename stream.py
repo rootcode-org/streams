@@ -51,6 +51,16 @@ class Stream:
             self.write_u8(value >> 8)
             self.write_u8(value & 0xff)
 
+    def write_u24(self, value):
+        if self.endian == self.LITTLE_ENDIAN:
+            self.write_u8(value & 0xff)
+            self.write_u8((value >> 8) & 0xff)
+            self.write_u8(value >> 16)
+        else:
+            self.write_u8(value >> 16)
+            self.write_u8((value >> 8) & 0xff)
+            self.write_u8(value & 0xff)
+
     def write_u32(self, value):
         if self.endian == self.LITTLE_ENDIAN:
             self.write_u16(value & 0xffff)
@@ -126,6 +136,13 @@ class Stream:
             value = self.read_u8() + (self.read_u8() << 8)
         else:
             value = (self.read_u8() << 8) + self.read_u8()
+        return value
+
+    def read_u24(self):
+        if self.endian == self.LITTLE_ENDIAN:
+            value = self.read_u8() + (self.read_u8() << 8) + (self.read_u8() << 16)
+        else:
+            value = (self.read_u8() << 16) + (self.read_u8() << 8) + self.read_u8()
         return value
 
     def read_u32(self):

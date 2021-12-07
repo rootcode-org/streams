@@ -20,8 +20,8 @@ class FileStream(Stream):
     def close(self):
         self.handle.close()
 
-    def set_position(self, position):
-        self.handle.seek(position)
+    def set_position(self, position, whence=io.SEEK_SET):
+        self.handle.seek(position, whence)
 
     def get_position(self):
         return self.handle.tell()
@@ -40,9 +40,6 @@ class FileStream(Stream):
 
     def is_eof(self):
         return self.handle.tell() == self.length
-
-    def skip(self, num_bytes):
-        self.handle.seek(num_bytes, io.SEEK_CUR)
 
     def write_u8(self, value):
         self.handle.write(bytes([value]))
