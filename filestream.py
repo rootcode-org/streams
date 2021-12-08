@@ -11,8 +11,8 @@ from stream import Stream
 
 class FileStream(Stream):
 
-    def __init__(self, file_name, mode):
-        Stream.__init__(self)
+    def __init__(self, file_name, mode, endian=None):
+        Stream.__init__(self, endian)
         self.handle = io.open(file_name, mode)
         self.length = os.path.getsize(file_name)
         self.position_stack = []

@@ -13,8 +13,8 @@ class ByteStream(Stream):
     SEEK_CUR = 1
     SEEK_END = 2
 
-    def __init__(self):
-        Stream.__init__(self)
+    def __init__(self, endian=None):
+        Stream.__init__(self, endian)
         self.data = bytearray()
         self.read_position = 0        # position is used for read operations only
         self.read_position_stack = []

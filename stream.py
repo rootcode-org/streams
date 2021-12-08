@@ -12,9 +12,9 @@ class Stream:
     LITTLE_ENDIAN = 0
     BIG_ENDIAN = 1
 
-    def __init__(self):
+    def __init__(self, endian=None):
         self.length = 0
-        self.endian = self.LITTLE_ENDIAN
+        self.endian = endian if endian else self.LITTLE_ENDIAN
         self.endian_stack = []
 
     def get_length(self):

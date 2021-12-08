@@ -9,8 +9,8 @@ from stream import Stream
 
 class SocketStream(Stream):
 
-    def __init__(self, socket):
-        Stream.__init__(self)
+    def __init__(self, socket, endian=None):
+        Stream.__init__(self, endian)
         self.socket = socket
         self.write_buffer = bytearray()
         self.read_buffer = bytearray()
